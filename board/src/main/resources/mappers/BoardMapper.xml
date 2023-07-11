@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.mapper.BoardMapper">
+
+	<sql id = "boardColumns"> <!-- 데이터베이스 -->
+		idx
+	,	title
+	,	content
+	,	writer
+	,	view_cnt
+	,	notice_yn
+	,	secret_yn
+	,	delete_yn
+	,	insert_time
+	,	update_time
+	,	delete_time
+	</sql>
+	
+	<insert id ="insertBoard" parameterType="BoardDTO"> <!-- 데이터를 넣을땐 insert -->
+		INSERT INTO board (
+			<include refid="boardColumns"/>
+		)VALUES (
+			#{idx}
+		,	#{title}
+		,	#{content}
+		,	#{writer}
+		,	0
+		,	IFNULL(#{noticeYn},'N')
+		,	IFNULL(#{secretYn},'N')
+		,	'N'
+		,	NOW() 
+		,	NULL  
+		,	NULL
+			)
+		</insert>
+		
+	<select id="selectBoardDetail" parameterType="long" resultType="BoardDTO"> <!-- BoardDTO에 있는 값과 같음 -->
+		SELECT 
+			<include refid="boardColumns"/>
+		FROM
+			board
+		where
+			delete_yn = 'N' <!--삭제가 되지 않은 게시글일때 조회 가능-->
+		AND
+			idx = #{idx}
+	</select>
+	
+	<update id = "updateBoard" parameterType="BoardDTO"> <!-- 수정할땐 update -->
+		UPDATE board <!-- 원하는 내용 원하는 대로 바꿔주기 -->
+		SET
+				update_time = NOW()
+			,	title = #{title}
+			,	content = #{content}
+			,	writer = #{writer}
+			,	notice_yn = IFNULL(#{noticeYn},'N')
+			,	secret_yn = IFNULL(#{secretYn},'N')
+		WHERE
+			idx = #{idx} 
+	</update>
+	
+	<update id="deleteBoard" parameterType="long">
+		UPDATE board <!-- 값을 지우지 않고 업데이트 해줌 /더 잘 알아보기위해 -->
+		SET 
+				delete_yn = 'Y' 
+			,	delete_time = NOW()
+		WHERE
+				idx = #{idx]
+	</update>
+	
+	<select id="selectBoardList" parameterType="BoardDTO" resultType="BoardDTO">
+		SELECT
+			<include refid="boardColumns"/>
+		FROM
+			board
+		WHERE
+			delete_yn = 'N'
+		ORDER BY
+			notice_yn ASC, <!-- 최상단 위치  -->
+			idx DESC,
+			insert_time DESC
+		</select>
+		
+	<select id="selectBoardTotalCount" parameterType="BoardDTO" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			board
+		WHERE
+			delete_yn = 'N' <!-- 이 값의 갯수 구하기 위의 COUNT의 역할 -->
+	</select>		
+		
+
+
+
+</mapper>
