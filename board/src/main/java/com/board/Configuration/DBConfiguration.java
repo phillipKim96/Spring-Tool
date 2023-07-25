@@ -39,7 +39,7 @@ public class DBConfiguration {
 		factoryBean.setDataSource(dataSource());
 		factoryBean.setMapperLocations(applicationContext.getResources("classpath:/mappers/**/*Mapper.xml"));// src/main/resources 부분에서 
 		//가져다씀(Mapper.xml이 있으면 갔다쓰겠다는 뜻)
-		factoryBean.setTypeAliasesPackage("com.board.domain"); //클래스 패키지 경로 지정
+		factoryBean.setTypeAliasesPackage("com.board.*"); //클래스 패키지 경로 지정
 		factoryBean.setConfiguration(mybatisConfg());
 		return factoryBean.getObject();
 	}

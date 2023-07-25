@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.board.domain.BoardDTO;
 import com.board.mapper.BoardMapper;
+import com.board.paging.Criteria;
 
 // BoardServicelmpl 클래스를 서비스 빈으로 등록하기 위해 @Service 어노테이션을 사용합니다.
 @Service
@@ -60,18 +61,15 @@ public class BoardServicelmpl implements BoardService {
 
 	// 모든 게시글 목록을 조회하는 메서드입니다.
 	@Override
-	public List<BoardDTO> getBoardList() {
+	public List<BoardDTO> getBoardList(Criteria criteria){
 		List<BoardDTO> boardList = Collections.emptyList();
 		
-		// boardMapper를 사용하여 게시글의 총 개수를 조회합니다.
-		int boardTotalCount = boardMapper.selectBoardTotalCount();
+		int boardTotalCount = boardMapper.selectBoardTotalCount(criteria);
 		
-		// 게시글의 총 개수가 0보다 큰 경우에만 모든 게시글 목록을 조회합니다.
-		if(boardTotalCount > 0) {
-			boardList = boardMapper.selectBoardList();
+		if (boardTotalCount > 0) {
+			boardList = boardMapper.selectBoardList(criteria);
 		}
-		
-		// 조회된 게시글 목록을 반환합니다.
+		 
 		return boardList;
 	}
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<body th:fragment="main-body">
+		<!-- 상단 고정 네비게이션 바 -->
+		<div class="fixed-navbar">
+			<div class="pull-left">
+				<h1 class="page-title">Board</h1>
+			</div>
+		</div>
+		<!-- 페이지 내용 래퍼(wrapper) -->
+		<div id="wrapper">
+			<div class="main-content">
+				<div class="row row-inline-block small-spacing">
+					<div class="col-xs-12">
+						<!-- 상자 내용 -->
+						<div class="box-content">
+							<div class="clearfix">
+								<!-- 상자 제목 -->
+								<h4 class="box-title pull-left"></h4>
+								<!-- 검색 부분 (이 부분은 다른 페이지에서 구현하고 삽입할 것) -->
+								<th:block layout:fragment="search"></th:block>
+							</div>
+							<!-- 본문 내용 (이 부분은 다른 페이지에서 구현하고 삽입할 것) -->
+							<th:block layout:fragment="content"></th:block>
+							<!-- 페이징 부분 (이 부분은 다른 페이지에서 구현하고 삽입할 것) -->
+							<th:block layout:fragment="paging"></th:block>
+						</div>
+						<!-- 추가 내용 부분 (이 부분은 다른 페이지에서 구현하고 삽입할 것) -->
+						<th:block layout:fragment="add-content"></th:block>
+					</div>
+				</div>
+				<!-- 페이지의 바닥글 -->
+				<footer class="footer">
+					<ul class="list-inline">
+						<li>Korea POLYTECHNIC</li>
+					</ul>
+				</footer>
+			</div>
+		</div>
+		
+		<!-- 필요한 스크립트 파일들 -->
+		<script th:src="@{/scripts/jquery.min.js}"></script>
+		<script th:src="@{/plugin/bootstrap/js/bootstrap.min.js}"></script>
+		<script th:src="@{/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js}"></script>
+		
+		<!-- 사용자 정의 스크립트 파일들 -->
+		<script th:src="@{/scripts/main.js}"></script>
+		<script th:src="@{/scripts/common.js}"></script>
+		
+		<!-- 스크립트 코드를 삽입할 공간 (이 부분은 다른 페이지에서 구현하고 삽입할 것) -->
+		<th:block layout:fragment="script"></th:block>
+	</body>
+</html>
