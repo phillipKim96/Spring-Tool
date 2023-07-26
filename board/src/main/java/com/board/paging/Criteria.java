@@ -1,6 +1,10 @@
 package com.board.paging;
 
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
 public class Criteria {
+	
 	private int currentPageNo;
 	private int recordsPerPage;
 	private int pageSize;
@@ -13,6 +17,10 @@ public class Criteria {
 		this.pageSize = 10;
 	}
 	
+	public int getStartPage() {
+		return (currentPageNo - 1) * recordsPerPage;
+	}
+
 	public int getCurrentPageNo() {
 		return currentPageNo;
 	}
@@ -52,16 +60,16 @@ public class Criteria {
 	public void setSearchType(String searchType) {
 		this.searchType = searchType;
 	}
-
-	public int getStartpage() {
-		return (currentPageNo -1) * recordsPerPage;
-	}
 	
-
-	@Override
-	public String toString() {
-		return "Criteria [currentPageNo=" + currentPageNo + ", recordsPerPage=" + recordsPerPage + ", pageSize="
-				+ pageSize + ", searchKeyword=" + searchKeyword + ", searchType=" + searchType + "]";
+	public String makeQueryString(int pageNo) {
+		UriComponents uriComponents = UriComponentsBuilder.newInstance()
+				.queryParam("currentPageNo", pageNo)
+				.queryParam("recordsPerPage", recordsPerPage)
+				.queryParam("pageSize", pageSize)
+				.queryParam("searchType", searchType)
+				.queryParam("searchKeyword", searchKeyword)
+				.build()
+				.encode();
+		return uriComponents.toUriString();
 	}
-
 }

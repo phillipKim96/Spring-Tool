@@ -1,4 +1,4 @@
-package com.board.Configuration;
+package com.board.configuration;
 
 import javax.sql.DataSource;
 
@@ -15,13 +15,11 @@ import org.springframework.context.annotation.PropertySource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-
 @Configuration
 @PropertySource("classpath:/application.properties")
 public class DBConfiguration {
-
 	@Autowired
-	private ApplicationContext applicationContext; // 객체들을 받아감
+	private ApplicationContext applicationContext;
 	
 	@Bean
 	@ConfigurationProperties(prefix="spring.datasource.hikari")
@@ -33,21 +31,21 @@ public class DBConfiguration {
 	public DataSource dataSource() {
 		return new HikariDataSource(hikariConfig());
 	}
+	
 	@Bean
 	public SqlSessionFactory sqlSessionFactory() throws Exception{
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 		factoryBean.setDataSource(dataSource());
-		factoryBean.setMapperLocations(applicationContext.getResources("classpath:/mappers/**/*Mapper.xml"));// src/main/resources 부분에서 
-		//가져다씀(Mapper.xml이 있으면 갔다쓰겠다는 뜻)
-		factoryBean.setTypeAliasesPackage("com.board.*"); //클래스 패키지 경로 지정
+		factoryBean.setMapperLocations(applicationContext.getResources("classpath:/mappers/**/*Mapper.xml"));
+		factoryBean.setTypeAliasesPackage("com.board.*");
 		factoryBean.setConfiguration(mybatisConfg());
 		return factoryBean.getObject();
 	}
+
 	@Bean
-	public SqlSessionTemplate sqlSession() throws Exception{
+	public SqlSessionTemplate sqlSession() throws Exception {
 		return new SqlSessionTemplate(sqlSessionFactory());
 	}
-	
 
 	@Bean
 	@ConfigurationProperties(prefix = "mybatis.configuration")

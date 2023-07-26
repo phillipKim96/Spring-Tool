@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
-@SpringBootTest // 스프링 부트에서 지원하는 단위 선언
+@SpringBootTest
 class BoardApplicationTests {
 
 	@Autowired
-	private ApplicationContext context; // DB에서 받는 객체를 잘 받았는지
+	private ApplicationContext context;
 	
 	@Autowired
-	private SqlSessionFactory sessionFactory; // session이 잘 돌아가는지
+	private SqlSessionFactory sessionFactory;
 	
 	@Test
 	void contextLoads() {
@@ -22,10 +22,11 @@ class BoardApplicationTests {
 	@Test
 	public void testByApplicationContext() {
 		try {
-			System.out.println("==============================");
+			System.out.println("================");
 			System.out.println(context.getBean("sqlSessionFactory"));
-			System.out.println("==============================");
-		} catch(Exception e) {
+			System.out.println("================");
+		} catch (Exception e) {
+			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
@@ -33,10 +34,11 @@ class BoardApplicationTests {
 	@Test
 	public void testBySqlSessionFactory() {
 		try {
-			System.out.println("==============================");
+			System.out.println("=========================");
 			System.out.println(sessionFactory.toString());
-			System.out.println("==============================");
-		} catch(Exception e) {
+			System.out.println("=========================");
+		} catch (Exception e) {
+			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
